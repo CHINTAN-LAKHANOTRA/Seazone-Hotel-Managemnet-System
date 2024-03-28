@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Seazone.Models.Booking>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Dashboard</title>
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+    <style>
+        /* Add CSS styles for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-main-container">
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Index">Amenities</a></button>
+    </div>
+
+    <!-- Table to display booking data -->
+    <table id="bookingTable">
+        <thead>
+            <!-- Row for search input -->
+            <tr>
+                <th colspan="9">
+                    <!-- Span across all columns -->
+                    <!-- Search functionality -->
+                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by Name or Email">
+                </th>
+            </tr>
+            <!-- Row for column names -->
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Aadhar</th>
+                <th>Phone</th>
+                <th>Room Type</th>
+                <th>Added Services</th>
+                <th>Check-In Date</th>
+                <th>Check-Out Date</th>
+                <th>Bill</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Name</td>
+                    <td>@booking.Email</td>
+                    <td>@booking.Aadhar</td>
+                    <td>@booking.Phone</td>
+                    <td>@booking.RoomType</td>
+                    <td>@string.Join(", ", booking.AddedServices)</td>
+                    <td>@booking.CheckInDate</td>
+                    <td>@booking.CheckOutDate</td>
+                    <td>@booking.Bill</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("bookingTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) { // Start from index 1 to skip the header row
+                td = tr[i].getElementsByTagName("td");
+                var found = false;
+                for (var j = 0; j < td.length; j++) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

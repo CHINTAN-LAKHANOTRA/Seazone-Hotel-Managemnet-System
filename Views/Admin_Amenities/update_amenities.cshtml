@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Amenities</title>
+    <!-- Include your CSS links here -->
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+    <link href="~/css/App.css" rel="stylesheet" />
+    <link href="~/css/amenities/update_amenities.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="admin-main-container">
+        <!-- Main navigation buttons -->
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Index">Amenities</a></button>
+    </div>
+
+    <div class="amenities-action-buttons">
+        <!-- Amenities action buttons -->
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="add_amenities">Add Amenity</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="delete_amenities">Delete Amenity</a></button>
+    </div>
+
+    <!-- Add a text box for entering Amenities Id -->
+    <div class="form-row">
+        <label for="amenitiesIdInput">Amenities Id:</label>
+        <input type="number" id="amenitiesIdInput" class="form-control" required />
+    </div>
+
+    <!-- Add a button to fetch data -->
+    <button id="checkAmenitiesButton" class="button-primary">Check Id</button>
+
+    <div class="main-container">
+        <div class="left-container">
+            <!-- Left form fields for Name and Description -->
+            <form id="leftContainerForm" action="/Admin_Amenities/Update" method="post" class="form">
+                <div class="form-row">
+                    <label for="amenityName">Name:</label>
+                    <input type="text" id="amenityName" name="AmenityName" class="form-control" required />
+                </div>
+                <div class="form-row">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="Description" class="form-control" rows="5" required></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="right-container">
+            <!-- Right form fields for other details -->
+            <form id="rightContainerForm" action="/Admin_Amenities/Update" method="post" class="form">
+                <div class="form-row">
+                    <label for="photo_url1">Photo URL 1:</label>
+                    <input type="url" id="photo_url1" name="PhotoUrl1" class="form-control" />
+                </div>
+                <div class="form-row">
+                    <label for="photo_url2">Photo URL 2:</label>
+                    <input type="url" id="photo_url2" name="PhotoUrl2" class="form-control" />
+                </div>
+                <div class="form-row">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="Price" class="form-control" required />
+                </div>
+                <div class="form-row">
+                    <label for="serviceType">Service Type:</label>
+                    <input type="text" id="serviceType" name="ServiceType" class="form-control" required />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button id="updateAmenitiesButton" class="button-tertiary">Update Amenities</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('#checkAmenitiesButton').click(function () {
+                console.log("Check button clicked");
+                var amenitiesId = $('#amenitiesIdInput').val();
+
+                $.ajax({
+                    url: '/Admin_Amenities/GetAmenitiesById', // Modify the URL to your action method
+                    type: 'GET',
+                    data: { amenitiesId: amenitiesId },
+                    success: function (response) {
+                        if (response.success) {
+                            var amenities = response.amenities;
+                            $('#leftContainerForm input[name="AmenityName"]').val(amenities.amenityName);
+                            $('#leftContainerForm textarea[name="Description"]').val(amenities.description);
+                            $('#rightContainerForm input[name="PhotoUrl1"]').val(amenities.photoUrl1);
+                            $('#rightContainerForm input[name="PhotoUrl2"]').val(amenities.photoUrl2);
+                            $('#rightContainerForm input[name="Price"]').val(amenities.price);
+                            $('#rightContainerForm input[name="ServiceType"]').val(amenities.serviceType);
+                        } else {
+                            alert('Amenities not found for the given Id.');
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to fetch amenities.');
+                        alert('Failed to fetch amenities.');
+                    }
+                });
+            });
+
+            $('#updateAmenitiesButton').click(function (e) {
+                e.preventDefault();
+
+                var forms = $('form');
+                var isValid = true;
+                forms.each(function () {
+                    if (!this.checkValidity()) {
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+                if (!isValid) {
+                    return;
+                }
+
+                var confirmed = confirm("Are you sure you want to update Amenities?");
+                if (!confirmed) {
+                    return;
+                }
+
+                var amenitiesId = $('#amenitiesIdInput').val();
+                var formDataLeft = $('#leftContainerForm').serialize();
+                var formDataRight = $('#rightContainerForm').serialize();
+                var formData = formDataLeft + '&' + formDataRight + '&Id=' + amenitiesId;
+
+                $.ajax({
+                    url: '/Admin_Amenities/Update',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        if (response && response.success) {
+                            console.log('Amenities updated successfully');
+                            alert('Amenities updated successfully');
+                            $('#leftContainerForm')[0].reset();
+                            $('#rightContainerForm')[0].reset();
+                        } else {
+                            console.error('Failed to update amenities');
+                            alert('Failed to update amenities. Please try again later.');
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to update amenities');
+                        alert('Failed to update amenities. Please try again later.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

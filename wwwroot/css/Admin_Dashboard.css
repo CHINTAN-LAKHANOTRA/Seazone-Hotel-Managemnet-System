@@ -1,0 +1,115 @@
+﻿body {
+}
+.admin-main-container {
+    margin: 6rem 1rem 1rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 1rem; /* Changed to rem */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* Changed to rem */
+    background-color: whitesmoke;
+    width: auto;
+}
+
+    .admin-main-container button {
+        padding: 1rem;
+        margin: 1rem 2rem 1rem 1rem;
+        background-color: #d9bf61;
+        color: black;
+        padding: 0.7rem 1rem;
+        white-space: nowrap;
+        border-radius: 0.3rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        outline: 2px solid black;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+.welcome-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .welcome-container h1 {
+        font-size: 24px;
+        color: #333;
+        font-family: Arial, sans-serif;
+        border-bottom: 2px solid #333;
+        padding-bottom: 10px;
+    }
+/* Styling for Quick Actions container */
+.quick-actions-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+    .quick-actions-container h2 {
+        color: #333;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .quick-actions-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .quick-actions-container li {
+        margin-bottom: 10px;
+    }
+
+        .quick-actions-container li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+            .quick-actions-container li a:hover {
+                text-decoration: underline;
+            }
+
+/* Styling for Important Notices container */
+.important-notices-container {
+    background-color: #ffe5e5;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+    .important-notices-container h2 {
+        color: #d9534f;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .important-notices-container p {
+        color: #333;
+    }
+
+/* Styling for System Status container */
+.system-status-container {
+    background-color: #e5f9e5;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+    .system-status-container h2 {
+        color: #28a745;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .system-status-container p {
+        color: #333;
+    }
+
+.status-okay {
+    color: #28a745;
+}
+
+@media screen and (max-width: 850px) {
+}

@@ -1,0 +1,85 @@
+﻿@model List<Seazone.Models.Dining>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu</title>
+
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+    <link href="~/css/Staff.css" rel="stylesheet" />
+    <link href="~/css/Staff/ViewStaff.css" rel="stylesheet" />
+    <link href="~/css/App.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="admin-main-container">
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Index">Amenities</a></button>
+    </div>
+
+    <div class="staff-action-buttons">
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Add">Add</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Delete">Delete</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Update">Update</a></button>
+    </div>
+
+    <div class="menu-container">
+        <h2>Menu Items</h2>
+        <!-- Search bar -->
+        <input type="text" id="searchInput" placeholder="Search for menu items..." onkeyup="filterMenu()">
+        <table id="menuTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Item Name</th>
+                    <th>Origin</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var menu in Model)
+                {
+                    <tr>
+                        <td>@menu.Id</td>
+                        <td>@menu.ItemName</td>
+                        <td>@menu.Origin</td>
+                        <td>@menu.Category</td>
+                        <td>@menu.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="error-message">
+            <p>@ViewBag.ErrorMessage</p>
+        </div>
+    }
+
+    <script>
+        function filterMenu() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("menuTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Index 1 corresponds to the Item Name column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

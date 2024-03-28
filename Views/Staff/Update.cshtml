@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Staff</title>
+    <!-- Include your CSS links here -->
+    <link href="~/css/Staff/AddStaff.css" rel="stylesheet" />
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+    <link href="~/css/Staff.css" rel="stylesheet" />
+    <link href="~/css/Staff/UpdateStaff.css" rel="stylesheet" />
+    <link href="~/css/App.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="admin-main-container">
+        <!-- Main navigation buttons -->
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="add_amenities">Amenities</a></button>
+    </div>
+
+    <div class="staff-action-buttons">
+        <!-- Staff action buttons -->
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Add">Add Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Delete">Delete</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Update">Update</a></button>
+    </div>
+
+    <div class="main-container">
+        <div class="input-container">
+            <input type="text" id="staffNoInput" class="form-control" placeholder="Enter Staff No" />
+            <button id="checkStaffButton" class="button-primary">Check</button>
+        </div>
+        <div class="left-container">
+            <!-- Left form fields for staff details -->
+            <form id="leftContainerForm" action="/Staff/Update" method="post" class="form">
+                <div class="form-row">
+                    <label>
+                        Full Name:
+                        <input type="text" name="FullName" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Email:
+                        <input type="email" name="Email" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Phone:
+                        <input type="text" name="Phone" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Password:
+                        <input type="password" name="Password" class="form-control" required />
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div class="right-container">
+            <!-- Right form fields for staff details -->
+            <form id="rightContainerForm" action="/Staff/Update" method="post" class="form">
+                <div class="form-row">
+                    <label>
+                        Joining Date:
+                        <input type="date" name="JoiningDate" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Date of Birth:
+                        <input type="date" name="DOB" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Gender:
+                        <select name="Gender" class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Designation:
+                        <input type="text" name="Designation" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Salary:
+                        <input type="number" name="Salary" class="form-control" required />
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="button-container">
+        
+        <button id="updateStaffButton" class="button-tertiary">Update Staff</button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('#checkStaffButton').click(function () {
+                console.log("Check button clicked"); // Log to console to check if event is triggered
+                var staffNo = $('#staffNoInput').val();
+                console.log("Staff Number:", staffNo); // Log staff number to verify it's fetched correctly
+
+                // Perform an AJAX request to check if staff exists
+                $.ajax({
+                    url: '/Staff/CheckStaff',
+                    type: 'GET',
+                    data: { staffNo: staffNo },
+                    success: function (response) {
+                        console.log("Success Response:", response); // Log success response
+                        if (response.exists) {
+                            var staff = response.staff;
+                            $('#leftContainerForm input[name="FullName"]').val(staff.fullName);
+                            $('#leftContainerForm input[name="Email"]').val(staff.email);
+                            $('#leftContainerForm input[name="Phone"]').val(staff.phone);
+                            $('#leftContainerForm input[name="Password"]').val(staff.password);
+                            $('#rightContainerForm input[name="JoiningDate"]').val(staff.joiningDate);
+                            $('#rightContainerForm input[name="DOB"]').val(staff.dob);
+                            $('#rightContainerForm select[name="Gender"]').val(staff.gender);
+                            $('#rightContainerForm input[name="Designation"]').val(staff.designation);
+                            $('#rightContainerForm input[name="Salary"]').val(staff.salary);
+                        } else {
+                            alert('Staff does not exist.');
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to check staff.'); // Log error if AJAX request fails
+                        alert('Failed to check staff.');
+                    }
+                });
+            });
+
+            $('#updateStaffButton').click(function (e) {
+                e.preventDefault(); // Prevent default button behavior
+
+                // Validate the forms
+                var forms = $('form');
+                var isValid = true;
+                forms.each(function () {
+                    if (!this.checkValidity()) {
+                        isValid = false;
+                        return false;
+                    }
+                });
+
+                if (!isValid) {
+                    return;
+                }
+
+                var confirmed = confirm("Are you sure you want to update Staff?");
+                if (!confirmed) {
+                    return;
+                }
+
+                var staffNo = $('#staffNoInput').val(); // Get the staff number
+
+                // Serialize form data and append staff number
+                var formDataLeft = $('#leftContainerForm').serialize();
+                var formDataRight = $('#rightContainerForm').serialize();
+                var formData = formDataLeft + '&' + formDataRight + '&Stno=' + staffNo;
+
+                $.ajax({
+                    url: '/Staff/Update',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        console.log('Staff updated successfully');
+                        alert('Staff updated successfully'); //  success message
+                        $('#leftContainerForm')[0].reset();
+                        $('#rightContainerForm')[0].reset();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Failed to update staff');
+                        alert('Failed to update staff'); //error message
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

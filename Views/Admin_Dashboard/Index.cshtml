@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="admin-main-container">
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>      
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Index">Amenities</a></button>
+    </div>
+
+    <div class="welcome-container">
+        <h1>Welcome to the Admin Dashboard</h1>
+        <p>This dashboard provides you with comprehensive tools and insights to efficiently manage your hotel operations.</p>
+    </div>
+
+    <div class="quick-actions-container">
+        <h2>Quick Actions</h2>
+        <ul>
+            <li>Add New Staff Member</li>
+            <li>Add Amenities</li>
+            <li>View Reservations</li>
+        </ul>
+    </div>
+
+    <div class="important-notices-container">
+        <h2>Important Notices</h2>
+        <p>Please do not Share admin password to any of the Staff members</p>
+    </div>
+
+    <div class="system-status-container">
+        <h2>System Status</h2>
+        <p>Status: <span class="status-okay">Operational</span></p>
+        <p>Last Maintenance: February 19, 2024</p>
+    </div>
+</body>
+</html>

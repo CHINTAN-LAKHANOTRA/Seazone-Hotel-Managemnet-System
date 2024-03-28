@@ -1,0 +1,75 @@
+﻿@page
+@model WelcomeDataModel
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOME PAGE</title>
+    <link rel="stylesheet" href="~/css/Welcome.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/hero.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/App.css" asp-append-version="true" />
+
+</head>
+<body>
+    <div class="hero">
+        <img alt="HeroImg" src="~/images/home.jpg" height="auto" />
+        <div class="hero-text">
+            <h1>Seazone</h1>
+            <p>Unveiling Luxury, Embraced by the Waves</p>
+            <a asp-area="" asp-controller="Booking" asp-action="Index" class="show">Book Now</a>
+        </div>
+    </div>
+    <div class="welcome" align="center">
+        <h1>Welcome to <span>Seazone</span></h1>
+        <p>"Where you meet world-class luxury and hospitality"</p>
+
+        @await Html.PartialAsync("_WelcomeData", new WelcomeDataModel
+   {
+       ClassName = "intro",
+       Heading = "Our Introduction",
+       Text = "Indulge in opulence by the sea at Seazone. ...",
+       Img1 = "~/images/rooms1.jpg",
+       Img2 = "~/images/rooms2.jpg"
+   })
+
+        @await Html.PartialAsync("_WelcomeData", new WelcomeDataModel
+   {
+       ClassName = "intro-reverse",
+       Heading = "Amenities",
+       Text = "Elevate your stay with unparalleled amenities at Seazone. ...",
+       Img1 = "~/images/rooms2.jpg",
+       Img2 = "~/images/rooms1.jpg"
+   })
+
+        @await Html.PartialAsync("_WelcomeData", new WelcomeDataModel
+   {
+       ClassName = "intro",
+       Heading = "Spa & Wellness",
+       Text = "Embark on a journey of rejuvenation at our state-of-the-art spa and wellness center. ...",
+       Img1 = "~/images/rooms2.jpg",
+       Img2 = "~/images/rooms1.jpg"
+   })
+
+        @await Html.PartialAsync("_WelcomeData", new WelcomeDataModel
+   {
+       ClassName = "intro-reverse",
+       Heading = "Dining",
+       Text = "At Seazone, culinary excellence is a journey of flavors that promises to tantalize your taste buds. ...",
+       Img1 = "~/images/rooms2.jpg",
+       Img2 = "~/images/rooms1.jpg"
+   })
+
+        @await Html.PartialAsync("_WelcomeData", new WelcomeDataModel
+   {
+       ClassName = "intro",
+       Heading = "Events",
+       Text = "At Seazone, we transform ordinary moments into extraordinary memories. ...",
+       Img1 = "~/images/home.jpg",
+       Img2 = "~/images/home.jpg"
+   })
+    </div>
+</body>
+</html>

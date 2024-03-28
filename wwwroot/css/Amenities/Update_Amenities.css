@@ -1,0 +1,44 @@
+﻿.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items to the top */
+}
+
+.left-container {
+    width: 45%; /* Adjust width as needed */
+    margin-right: 20px; /* Add some space between the containers */
+}
+
+.right-container {
+    width: 45%; /* Adjust width as needed */
+}
+
+    .left-container label,
+    .right-container label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+.left-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+/* Adjust styles for form elements as needed */
+.left-container input[type="text"],
+.left-container input[type="number"],
+.left-container input[type="url"],
+.right-container input[type="text"],
+.right-container input[type="number"],
+.right-container input[type="url"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.button-container {
+    margin-top: 20px;
+}

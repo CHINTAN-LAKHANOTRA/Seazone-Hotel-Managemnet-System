@@ -1,0 +1,95 @@
+﻿@model List<Seazone.Models.Staff>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff</title>
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+    <link href="~/css/Staff.css" rel="stylesheet" />
+    <link href="~/css/Staff/ViewStaff.css" rel="stylesheet" />
+    <link href="~/css/App.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="admin-main-container">
+        <!-- Main buttons -->
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Index">Amenities</a></button>
+    </div>
+
+    <div class="staff-action-buttons">
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Add">Add Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Delete">Delete</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Update">Update</a></button>
+    </div>
+
+    <div class="staff-container">
+        <div class="filters">
+            <!-- Search bar -->
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by Name, Email, or Phone" />
+        </div>
+
+        <table class="table-container">
+            <thead>
+                <tr>
+                    <th>TSHID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Designation</th>
+                    <th>Joining Date</th>
+                    <th>Salary</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var staff in Model)
+                {
+                    <tr>
+                        <td>@(staff.TshId ?? "")</td>
+                        <td>@(staff.FullName ?? "")</td>
+                        <td>@(staff.Email ?? "")</td>
+                        <td>@(staff.Phone ?? "")</td>
+                        <td>@staff.DOB.ToString("yyyy-MM-dd")</td>
+                        <td>@(staff.Gender ?? "")</td>
+                        <td>@(staff.Designation ?? "")</td>
+                        <td>@staff.JoiningDate.ToString("yyyy-MM-dd")</td>
+                        <td>@staff.Salary</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".table-container");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                var found = false;
+                for (var j = 0; j < td.length; j++) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

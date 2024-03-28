@@ -1,0 +1,183 @@
+﻿@{
+    ViewData["Title"] = "Seazone Hotel Booking";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seazone Hotel Booking</title>
+    <link href="~/css/booking.css" rel="stylesheet" />
+    <link href="~/css/app.css" rel="stylesheet" />
+    <style>
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem;
+        }
+
+        .left-container,
+        .right-container {
+            flex: 1;
+            margin: 0.5rem;
+        }
+
+        .left-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .right-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5; /* Light grey background color */
+        }
+
+        .book-now-button {
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="hotel-booking">
+        <h2>Seazone Hotel Booking</h2>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <p>Please <a href="/Login/Index">login</a> to book a room.</p>
+        }
+    </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.SuccessMessage
+        </div>
+    }
+    <div class="main-container">
+
+        <div class="left-container">
+            <form asp-action="SubmitBooking" method="post" id="bookingForm" style="align-items : left;">
+                <label>Name:</label>
+                <input type="text" class="form-control" name="Name" required>
+
+                <label>Email:</label>
+                <input type="email" class="form-control" name="Email" required>
+
+                <label>Aadhar:</label>
+                <input type="text" class="form-control" name="Aadhar" required>
+
+                <label>Phone:</label>
+                <input type="tel" class="form-control" name="Phone" required>
+
+                <label>Room Type:</label>
+                <select class="form-control" style="margin-left: 1rem;" name="RoomType" id="RoomType" onchange="calculateAmount()" required>
+                    <option value="">-- Select Room Type --</option>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Suite">Suite</option>
+                </select>
+
+                <!-- Hidden input field for the amount -->
+                <input type="hidden" id="amountInput" name="amount" />
+            </form>
+        </div>
+
+        <div class="right-container">
+            <form asp-action="SubmitBooking" method="post">
+                <label>Check In Date:</label>
+                <input type="date" class="form-control" name="CheckInDate" id="CheckInDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="calculateAmount()" required>
+
+                <label>Check Out Date:</label>
+                <input type="date" class="form-control" name="CheckOutDate" id="CheckOutDate" min="@DateTime.Today.ToString("yyyy-MM-dd")" onchange="calculateAmount()" required>
+
+                <label>Added Services:</label>
+                <div class="checkboxes">
+                    <div class="checkitems">
+                        <input type="checkbox" id="amenity1" name="AddedServices" value="Breakfast" onchange="calculateAmount()">
+                        <label for="amenity1">Breakfast</label>
+                    </div>
+                    <div class="checkitems">
+                        <input type="checkbox" id="amenity2" name="AddedServices" value="Airport Shuttle" onchange="calculateAmount()">
+                        <label for="amenity2">Airport Shuttle</label>
+                    </div>
+                    <!-- Add more amenities here -->
+                </div>
+
+                <label>Total Amount:</label>
+                <input type="number" class="form-control" id="amount" readonly>
+            </form>
+        </div>
+    </div>
+
+    <button class="button-tertiary book-now-button" type="button" onclick="submitBooking()">
+        Book Now
+    </button>
+
+    <script>
+        function submitBooking() {
+            if (confirm("Are you sure you want to book?")) {
+                // Set the value of the hidden input field with the calculated amount
+                document.getElementById("amountInput").value = document.getElementById("amount").value;
+
+                var form = document.getElementById("bookingForm");
+                form.submit(); // Submit the form
+            }
+        }
+
+        function calculateAmount() {
+            var roomType = document.getElementById("RoomType").value;
+            var addedServices = document.querySelectorAll('input[name="AddedServices"]:checked');
+            var checkInDate = new Date(document.getElementById("CheckInDate").value);
+            var checkOutDate = new Date(document.getElementById("CheckOutDate").value);
+            var differenceInTime = checkOutDate.getTime() - checkInDate.getTime();
+            var differenceInDays = differenceInTime / (1000 * 3600 * 24);
+            var amount = 0;
+            switch (roomType) {
+                case "Single":
+                    amount += 5000 * differenceInDays;
+                    break;
+                case "Double":
+                    amount += 7000 * differenceInDays;
+                    break;
+                case "Suite":
+                    amount += 8000 * differenceInDays;
+                    break;
+                default:
+                    break;
+            }
+            for (var i = 0; i < addedServices.length; i++) {
+                switch (addedServices[i].value) {
+                    case "Breakfast":
+                        amount += 1000 * differenceInDays;
+                        break;
+                    case "Airport Shuttle":
+                        amount += 1000 * differenceInDays;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            document.getElementById("amount").value = amount;
+
+        }
+
+        document.getElementById("CheckInDate").addEventListener("change", function () {
+            document.getElementById("CheckOutDate").setAttribute("min", this.value);
+            calculateAmount();
+        });
+
+        document.getElementById("CheckOutDate").addEventListener("change", function () {
+            if (this.value < document.getElementById("CheckInDate").value) {
+                this.value = document.getElementById("CheckInDate").value;
+            }
+            calculateAmount();
+        });
+    </script>
+</body>
+</html>

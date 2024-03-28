@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "Delete Amenities";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Amenities</title>
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+    <link href="~/css/App.css" rel="stylesheet" />
+    <link href="~/css/amenities/update_amenities.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="admin-main-container">
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Index">Amenities</a></button>
+    </div>
+
+    <div class="amenities-action-buttons">
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Add_Amenity">Add Amenity</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Delete_Amenity">Delete Amenity</a></button>
+    </div>
+
+    <div class="form-row">
+        <label for="amenitiesIdInput">Amenities Id:</label>
+        <input type="number" id="amenitiesIdInput" class="form-control" required />
+    </div>
+
+    <button id="checkAmenitiesButton" class="button-primary">Check Id</button>
+
+    <div class="main-container">
+        <div class="left-container">
+            <form id="leftContainerForm" class="form">
+                <div class="form-row">
+                    <label for="amenityName">Name:</label>
+                    <input type="text" id="amenityName" class="form-control" readonly />
+                </div>
+                <div class="form-row">
+                    <label for="description">Description:</label>
+                    <textarea id="description" class="form-control" rows="5" readonly></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="right-container">
+            <form id="rightContainerForm" class="form">
+                <div class="form-row">
+                    <label for="photo_url1">Photo URL 1:</label>
+                    <input type="url" id="photo_url1" class="form-control" readonly />
+                </div>
+                <div class="form-row">
+                    <label for="photo_url2">Photo URL 2:</label>
+                    <input type="url" id="photo_url2" class="form-control" readonly />
+                </div>
+                <div class="form-row">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" class="form-control" readonly />
+                </div>
+                <div class="form-row">
+                    <label for="serviceType">Service Type:</label>
+                    <input type="text" id="serviceType" class="form-control" readonly />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button id="deleteAmenitiesButton" class="button-tertiary">Delete Amenities</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('#checkAmenitiesButton').click(function () {
+                console.log("Check button clicked");
+                var amenitiesId = $('#amenitiesIdInput').val();
+
+                $.ajax({
+                    url: '/Admin_Amenities/GetAmenitiesById',
+                    type: 'GET',
+                    data: { amenitiesId: amenitiesId },
+                    success: function (response) {
+                        if (response.success) {
+                            var amenities = response.amenities;
+                            $('#amenityName').val(amenities.amenityName);
+                            $('#description').val(amenities.description);
+                            $('#photo_url1').val(amenities.photoUrl1);
+                            $('#photo_url2').val(amenities.photoUrl2);
+                            $('#price').val(amenities.price);
+                            $('#serviceType').val(amenities.serviceType);
+                        } else {
+                            alert('Amenities not found for the given Id.');
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to fetch amenities.');
+                        alert('Failed to fetch amenities.');
+                    }
+                });
+            });
+
+            $('#deleteAmenitiesButton').click(function (e) {
+                e.preventDefault();
+
+                var amenitiesId = $('#amenitiesIdInput').val();
+
+                var confirmed = confirm("Are you sure you want to delete Amenities?");
+                if (!confirmed) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Admin_Amenities/DeleteAmenities',
+                    type: 'POST',
+                    data: { id: amenitiesId },
+                    success: function (response) {
+                        if (response && response.success) {
+                            console.log('Amenities deleted successfully');
+                            alert('Amenities deleted successfully');
+                            // Optionally, you can reset the form fields here
+                            $('#leftContainerForm')[0].reset();
+                            $('#rightContainerForm')[0].reset();
+                        } else {
+                            console.error('Failed to delete amenities');
+                            alert('Failed to delete amenities. Please try again later.');
+                        }
+                    },
+                    error: function () {
+                        console.error('Failed to delete amenities');
+                        alert('Failed to delete amenities. Please try again later.');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

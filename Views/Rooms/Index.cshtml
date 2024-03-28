@@ -1,0 +1,52 @@
+﻿@model List<Seazone.Models.Room>
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<link href="~/css/rooms.css" rel="stylesheet" />
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rooms</title>
+
+</head>
+<body>
+    <div>
+        @foreach (var room in Model)
+        {
+            <div class="room-container">
+                <div class="left-section">
+                    <img src="@room.PhotoUrl" alt="Room @(room.Id)" />
+                    <img src="@room.PhotoUrl2" alt="Room @(room.Id)" />
+                </div>
+                <div class="right-section">
+                    <div class='room-info-top'>
+                        <h2>@room.RoomType</h2>
+                        <p>@room.Description</p>
+                    </div>
+                    <div class='room-info-mid'>
+                        <h3>Features</h3>
+                        @if (!string.IsNullOrEmpty(room.Features))
+                        {
+                            <div class='features'>
+                                <div class="features-list">
+                                    <p class="feature-item">@room.Features</p>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>@room.Features</p>
+                        }
+                    </div>
+                    <div class='room-info-low'>
+                        <p>Bed: @room.BedType Size</p>
+                        <p>Max Occupancy: @room.Capacity</p>
+                        <p>Price: ₹ @room.Price/-</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿@model List<Seazone.Models.Amenities>
+
+@{
+    ViewData["Title"] = "Amenities";
+}
+<link href="~/css/amenities.css" rel="stylesheet" />
+
+<h1>Amenities</h1>
+
+<div class="awelcome">
+    @foreach (var amenity in Model.Where(a => a.ServiceType == "Included"))
+    {
+        <div class="aintro">
+            <div class="aintro-text">
+                <h2>@amenity.AmenityName</h2>
+                <p>@amenity.Description</p>
+                <p style="color: green;">Inc with booking</p>
+            </div>
+            <div class="aimage">
+                <img src="@amenity.PhotoUrl1" alt="Amenity 1" />
+                <img src="@amenity.PhotoUrl2" alt="Amenity 2" />
+            </div>
+        </div>
+    }
+</div>
+
+<div class="awelcome">
+    @foreach (var amenity in Model.Where(a => a.ServiceType != "Included"))
+    {
+        <div class="aintro">
+            <div class="aintro-text">
+                <h2>@amenity.AmenityName</h2>
+                <p>@amenity.Description</p>
+                <p style="color: black;"><span style="color: red;">*</span> Need to pay</p>
+            </div>
+            <div class="aimage">
+                <img src="@amenity.PhotoUrl1" alt="Amenity 1" />
+                <img src="@amenity.PhotoUrl2" alt="Amenity 2" />
+            </div>
+        </div>
+    }
+</div>

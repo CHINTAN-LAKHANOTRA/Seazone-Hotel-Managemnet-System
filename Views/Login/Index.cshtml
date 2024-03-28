@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<link href="~/css/login.css" rel="stylesheet" />
+<link href="~/css/app.css" rel="stylesheet" />
+<link href="~/css/hero.css" rel="stylesheet" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+</head>
+<body>
+    <div class="login-main-container">
+        <div class="login-container">
+            <div class="login-left">
+                <img src="~/images/Seazone-dark.svg" height="300px" width="300px" padding-bottom="30px" alt="Seazone" />
+                <h1 class="login-company-name">HOTELS
+
+                </h1>
+                <p><i>"Where Luxury Meets Reality"</i></p>
+            </div>
+            <div class="login-right">
+                <div class="login-content">
+                    <h2 class="login-heading">Welcome Back!</h2>
+                    <p class="login-subtext">Login to your account</p>
+                    <form class="login-form" method="post" action="/login">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        <button type="submit" class="button-secondary">Login</button>
+                        <p>Dont have an account yet?<a asp-area="" asp-controller="Registration" asp-action="Index"> Register Now</a></p>
+                    </form>
+                    <p class="error-message">@ViewBag.Error</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

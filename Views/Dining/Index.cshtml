@@ -1,0 +1,55 @@
+﻿@model List<Seazone.Models.Dining>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <!-- Include your stylesheet path -->
+    <link rel="stylesheet" href="~/css/Dining.css" asp-append-version="true" />
+    <link href="~/css/hero.css" rel="stylesheet" />
+    <link href="~/css/app.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="hero">
+        <img alt="HeroImg" src="~/images/food.jpg" class="img" width="100%" height="600px" />
+        <div class="hero-text">
+            <h1>Seazone</h1>
+            <p>Seazone's Dining</p>
+            <a asp-area="" asp-controller="Book" asp-action="Index" class="show">Book Now</a>
+        </div>
+    </div>
+
+    <div>
+        <!-- Display filtered menus -->
+        <div class="food-grid">
+            <!-- Display all items by default and if filters are applied then show filtered items -->
+            @foreach (var menu in Model)
+            {
+                <div class="food-card category-@menu.Category">
+                    <!-- Add a class with the category name to each menu item -->
+                    <img src="@menu.PhotoUrl" alt="@menu.ItemName" style="display: block;" />
+                    <div class="food-info">
+                        <h3>@menu.ItemName</h3>
+                        <p>@menu.Description</p>
+                    </div>
+                    <div class="food-info2">
+                        <p>Origin: @menu.Origin</p>
+                        <p>Category: @menu.Category</p>
+                        <p>Meal: @menu.Meal</p>
+                    </div>
+                    <div class="price-info">
+                        <p>Rating: @menu.Rating <i class="fa-solid fa-star"></i></p>
+                        <p>Price: ₹ @menu.Price /-</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+
+</html>

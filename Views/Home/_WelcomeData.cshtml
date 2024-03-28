@@ -1,0 +1,13 @@
+﻿@model WelcomeDataModel
+
+<div class="@Model.ClassName">
+    <div class="intro-text">
+        <h2>@Model.Heading</h2>
+        <p>@Model.Text</p>
+    </div>
+
+    <div class="image">
+        <img src="@Url.Content(Model.Img1)" alt="fimage" />
+        <img src="@Url.Content(Model.Img2)" alt="fimage" />
+    </div>
+</div>

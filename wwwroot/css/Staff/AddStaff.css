@@ -1,0 +1,89 @@
+﻿/* Apply styles to the body if needed */
+body {
+    /* Add any body-specific styles here */
+}
+
+/* Style for form rows */
+.form-row {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+/* Styles for labels */
+label {
+    flex: 1;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+/* Styles for form inputs */
+form input,
+select {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Additional styling for date picker input */
+input[type="date"] {
+    appearance: none;
+    padding-right: 20px;
+    background-size: 20px 20px;
+    /* Adjust based on your calendar icon size */
+}
+
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+
+input:hover,
+select:hover,
+button:hover,
+input:focus,
+select:focus,
+button:focus {
+    outline: none;
+    border-color: black;
+    box-shadow: 0 0 5px black;
+}
+
+.main-container {
+    display: flex;
+    margin: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 5px whitesmoke;
+    background-color: white;
+}
+
+.left-container {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px whitesmoke;
+    margin-right: 1rem; /* Add margin to create space between left and right containers */
+}
+
+.right-container {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px whitesmoke;
+    margin-left: 1rem; /* Add margin to create space between left and right containers */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Align items horizontally */
+}

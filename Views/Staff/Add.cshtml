@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Staff</title>
+    <!-- Include your CSS links here -->
+    <link href="~/css/Admin_Dashboard.css" rel="stylesheet" />
+    <link href="~/css/Staff.css" rel="stylesheet" />
+    <link href="~/css/Staff/AddStaff.css" rel="stylesheet" />
+    <link href="~/css/App.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="admin-main-container">
+        <!-- Main navigation buttons -->
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Index">Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Booking" asp-action="Index">Reservations</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Menu" asp-action="Index">Menu</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Room" asp-action="Index">Rooms</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Admin_Amenities" asp-action="Index">Amenities</a></button>
+    </div>
+
+    <div class="staff-action-buttons">
+        <!-- Staff action buttons -->
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Add">Add Staff</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Delete">Delete</a></button>
+        <button class="button-primary"><a asp-area="" asp-controller="Staff" asp-action="Update">Update</a></button>
+    </div>
+
+    <div class="main-container">
+        <div class="left-container">
+            <!-- Left form fields for staff details -->
+            <form id="leftContainerForm" action="/Staff/Add" method="post" class="form">
+                <div class="form-row">
+                    <label>
+                        Full Name:
+                        <input type="text" name="FullName" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Email:
+                        <input type="email" name="Email" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Phone:
+                        <input type="text" name="Phone" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Password:
+                        <input type="password" name="Password" class="form-control" required />
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div class="right-container">
+            <!-- Right form fields for staff details -->
+            <form id="rightContainerForm" action="/Staff/Add" method="post" class="form">
+                <div class="form-row">
+                    <label>
+                        Joining Date:
+                        <input type="date" name="JoiningDate" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Date of Birth:
+                        <input type="date" name="DOB" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Gender:
+                        <select name="Gender" class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Designation:
+                        <input type="text" name="Designation" class="form-control" required />
+                    </label>
+                </div>
+                <div class="form-row">
+                    <label>
+                        Salary:
+                        <input type="number" name="Salary" class="form-control" required />
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <!-- Button to add staff -->
+        <button id="addStaffButton" class="button-tertiary">Add Staff</button>
+    </div>
+
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('#addStaffButton').click(function (e) {
+                e.preventDefault(); // Prevent default button behavior
+
+                // Validate the forms
+                var forms = $('form');
+                var isValid = true;
+                forms.each(function () {
+                    if (!this.checkValidity()) {
+                        isValid = false;
+                        return false; // Exit loop early if a form is invalid
+                    }
+                });
+
+                if (!isValid) {
+                    return; // Exit function if any form is invalid
+                }
+
+                // Prompt user before adding staff
+                var confirmed = confirm("Are you sure you want to add Staff?");
+                if (!confirmed) {
+                    return; // Exit function if user cancels
+                }
+
+                // Serialize form data
+                var formDataLeft = $('#leftContainerForm').serialize();
+                var formDataRight = $('#rightContainerForm').serialize();
+                var formData = formDataLeft + '&' + formDataRight;
+
+                // Submit form data asynchronously
+                $.ajax({
+                    url: '/Staff/Add', // Submit to Add action in Staff controller
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        // Handle success response
+                        console.log('Staff added successfully');
+                        alert('Staff added successfully'); // Show success message
+                        $('#leftContainerForm')[0].reset(); // Reset the left form
+                        $('#rightContainerForm')[0].reset(); // Reset the right form
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.error('Failed to add staff');
+                        alert('Failed to add staff'); // Show error message
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

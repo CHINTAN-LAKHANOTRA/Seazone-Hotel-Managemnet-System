@@ -1,0 +1,68 @@
+﻿@model Seazone.UserRegistration
+
+@{
+    ViewData["Title"] = "Registration";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>User Signup</title>
+    <link href="~/css/app.css" rel="stylesheet" />
+    <link href="~/css/hero.css" rel="stylesheet" />
+    <link href="~/css/registration.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="signup-form">
+        <div class="left-signup">
+            <form method="post" action="@Url.Action("Index", "Registration")">
+                <div class="form-row">
+                    <label for="FullName">Full Name:</label>
+                    <input type="text" id="FullName" name="FullName" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.FullName)</span>
+                </div>
+
+                <div class="form-row">
+                    <label for="Email">Email:</label>
+                    <input type="text" id="Email" name="Email" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.Email)</span>
+                </div>
+
+                <div class="form-row">
+                    <label for="Phone">Phone:</label>
+                    <input type="text" id="Phone" name="Phone" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.Phone)</span>
+                </div>
+
+                <div class="form-row">
+                    <label for="Password">Password:</label>
+                    <input type="password" id="Password" name="Password" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.Password)</span>
+                </div>
+
+                <div class="form-row">
+                    <label for="ConfirmPassword">Confirm Password:</label>
+                    <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.ConfirmPassword)</span>
+                </div>
+
+                <div class="form-row">
+                    <label for="Gender">Gender:</label>
+                    <select id="Gender" name="Gender" class="form-control">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => model.Gender)</span>
+                </div>
+
+                <button type="submit" class="button-tertiary">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
